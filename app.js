@@ -4,12 +4,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const addTimeBtn = document.getElementById('addTimeBtn');
     const calculateBtn = document.getElementById('calculateBtn');
     const changeStoreBtn = document.getElementById('changeStoreBtn');
+    const themeToggle = document.getElementById('themeToggle');
     const timeInputsContainer = document.getElementById('timeInputs');
     const storeModal = document.getElementById('storeModal');
     const storeForm = document.getElementById('storeForm');
     const storeFilter = document.getElementById('storeFilter');
     const storeNumberInput = document.getElementById('storeNumber');
     const storeNameInput = document.getElementById('storeName');
+    
+    // Load theme preference
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateThemeIcon(savedTheme);
     
     // Load history and store list
     loadStores();
@@ -29,6 +35,16 @@ document.addEventListener('DOMContentLoaded', () => {
     timeInputs.forEach(input => {
         input.addEventListener('input', handleTimeInput);
         input.addEventListener('blur', formatTimeInput);
+        input.addEventListener('keyup', handleTimeInputKeyup);
+    });
+    
+    // Add event listener for theme toggle
+    themeToggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme);
     });
     
     // Add event listener for Add Time button
@@ -69,6 +85,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+function updateThemeIcon(theme) {
+    const icon = document.querySelector('#themeToggle i');
+    icon.className = theme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+}
+
+function handleTimeInputKeyup(e) {
+    const input = e.target;
+    const value = input.value;
+    
+    // If we're in a seconds input and have 2 digits, move to next time input
+    if (input.id.includes('-sec') && value.length === 2) {
+        const currentTimeIndex = parseInt(input.id.match(/\d+/)[0]);
+        const nextTimeInput = document.querySelector(`#time${currentTimeIndex + 1}-min`);
+        
+        if (nextTimeInput) {
+            nextTimeInput.focus();
+        }
+    }
+}
 
 function handleTimeInput(e) {
     const input = e.target;

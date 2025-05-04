@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOS Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta name="theme-color" content="#EC1C24">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-stopwatch"></i> SOS Calculator</h1>
+            <button class="change-store-btn" id="changeStoreBtn">
+                <i class="fas fa-store"></i> Change Store
+            </button>
+        </div>
+        <div class="time-inputs" id="timeInputs">
+            <div class="time-input">
+                <label for="time1">Time 1:</label>
+                <input type="number" id="time1-min" placeholder="MM" min="0" maxlength="2">
+                <span class="separator">:</span>
+                <input type="number" id="time1-sec" placeholder="SS" min="0" max="59" maxlength="2">
+            </div>
+            <div class="time-input">
+                <label for="time2">Time 2:</label>
+                <input type="number" id="time2-min" placeholder="MM" min="0" maxlength="2">
+                <span class="separator">:</span>
+                <input type="number" id="time2-sec" placeholder="SS" min="0" max="59" maxlength="2">
+            </div>
+            <div class="time-input">
+                <label for="time3">Time 3:</label>
+                <input type="number" id="time3-min" placeholder="MM" min="0" maxlength="2">
+                <span class="separator">:</span>
+                <input type="number" id="time3-sec" placeholder="SS" min="0" max="59" maxlength="2">
+            </div>
+            <div class="time-input">
+                <label for="time4">Time 4:</label>
+                <input type="number" id="time4-min" placeholder="MM" min="0" maxlength="2">
+                <span class="separator">:</span>
+                <input type="number" id="time4-sec" placeholder="SS" min="0" max="59" maxlength="2">
+            </div>
+            <div class="time-input">
+                <label for="time5">Time 5:</label>
+                <input type="number" id="time5-min" placeholder="MM" min="0" maxlength="2">
+                <span class="separator">:</span>
+                <input type="number" id="time5-sec" placeholder="SS" min="0" max="59" maxlength="2">
+            </div>
+        </div>
+        
+        <div class="buttons">
+            <button class="add-time-btn" id="addTimeBtn">
+                <i class="fas fa-plus"></i> Add Time
+            </button>
+            <button class="calculate-btn" id="calculateBtn">
+                <i class="fas fa-calculator"></i> Calculate Average
+            </button>
+        </div>
+
+        <div class="history-section">
+            <div class="history-header">
+                <h2><i class="fas fa-history"></i> History</h2>
+                <div class="history-filters">
+                    <select id="storeFilter">
+                        <option value="all">All Stores</option>
+                    </select>
+                </div>
+            </div>
+            <div class="history-groups">
+                <div class="history-group" data-period="today">
+                    <div class="group-header">
+                        <h3><i class="fas fa-sun"></i> Today</h3>
+                        <button class="expand-btn"><i class="fas fa-chevron-down"></i></button>
+                    </div>
+                    <ul class="history-list"></ul>
+                </div>
+                <div class="history-group" data-period="yesterday">
+                    <div class="group-header">
+                        <h3><i class="fas fa-moon"></i> Yesterday</h3>
+                        <button class="expand-btn"><i class="fas fa-chevron-down"></i></button>
+                    </div>
+                    <ul class="history-list"></ul>
+                </div>
+                <div class="history-group" data-period="lastWeek">
+                    <div class="group-header">
+                        <h3><i class="fas fa-calendar-week"></i> Last Week</h3>
+                        <button class="expand-btn"><i class="fas fa-chevron-down"></i></button>
+                    </div>
+                    <ul class="history-list"></ul>
+                </div>
+                <div class="history-group" data-period="lastMonth">
+                    <div class="group-header">
+                        <h3><i class="fas fa-calendar-alt"></i> Last Month</h3>
+                        <button class="expand-btn"><i class="fas fa-chevron-down"></i></button>
+                    </div>
+                    <ul class="history-list"></ul>
+                </div>
+                <div class="history-group" data-period="lastYear">
+                    <div class="group-header">
+                        <h3><i class="fas fa-calendar"></i> Last Year</h3>
+                        <button class="expand-btn"><i class="fas fa-chevron-down"></i></button>
+                    </div>
+                    <ul class="history-list"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Store Information Modal -->
+    <div class="modal" id="storeModal">
+        <div class="modal-content">
+            <h2><i class="fas fa-store"></i> Store Information</h2>
+            <form id="storeForm">
+                <div class="form-group">
+                    <label for="storeNumber"><i class="fas fa-hashtag"></i> Store Number:</label>
+                    <input type="text" id="storeNumber" required>
+                </div>
+                <div class="form-group">
+                    <label for="storeName"><i class="fas fa-signature"></i> Store Name:</label>
+                    <input type="text" id="storeName" required>
+                </div>
+                <div class="form-buttons">
+                    <button type="submit" class="save-btn">
+                        <i class="fas fa-save"></i> Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+    </script>
+</body>
+</html> 
